@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import django_heroku
-import dj_database_url
+
 from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,9 +25,9 @@ SATIC_DIR = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = '-oy*p@ok6+^fl$%dd=1q^^i5lc3c=+!*cietgsl=!n$-1#w+ts'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','youned.herokuapp.com/']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -73,7 +72,6 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'whitenoise.middleware.WhiteNoiseMiddleware',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -138,7 +136,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATICFILES_STORAGE ='whitenoise.storage.CompresseManifestStaticFilesStorage'
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
@@ -162,4 +160,3 @@ SOCIAL_AUTH_FACEBOOK_KEY = "255131422854578"
 SOCIAL_AUTH_FACEBOOK_KEY_SECRET = "b2ff098cd0575a205aae9a4d79deff33"
 
 
-django_heroku.settings(locals())
