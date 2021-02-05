@@ -42,7 +42,7 @@ class EcomRequir(object):
 # ==================================================================
 
 def home(request):
-    response = requests.get('http://127.0.0.1:8000/product/web_api/').json()
+    response = requests.get('http://rrasmi070.pythonanywhere.com/product/web_api/').json()
     # print(response)
     prdt = Product.objects.all()
     # page = Paginator(prdt,4) # Show 4 contacts per page.
