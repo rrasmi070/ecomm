@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'template')
@@ -92,10 +91,7 @@ WSGI_APPLICATION = 'ecomm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'E-comm',
-        'USER': 'postgres',
-        'PASSWORD': '8200',
-        'HOST': 'localhost'
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -136,7 +132,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
@@ -158,5 +153,3 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SOCIAL_AUTH_FACEBOOK_KEY = "255131422854578"
 SOCIAL_AUTH_FACEBOOK_KEY_SECRET = "b2ff098cd0575a205aae9a4d79deff33"
-
-

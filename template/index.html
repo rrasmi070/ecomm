@@ -17,7 +17,7 @@
       <div class="row mx-auto">
         {% for d in response%}    
         <div class="card mx-auto mb-3" style="width: 18rem;">
-          <a href="http://rrasmi070.pythonanywhere.com{{d.image}}"><img class="card-img-top rounded" style=" height: 200px" src="http://127.0.0.1:8000{{d.image}}" alt="Card image cap" style="width: 15; height:15;"></a>
+          <a href="http://rrasmi070.pythonanywhere.com{{d.image}}"><img class="card-img-top rounded" style=" height: 200px" src="http://rrasmi070.pythonanywhere.com{{d.image}}" alt="Card image cap" style="width: 15; height:15;"></a>
           <div class="card-body">
             <a href="{% url 'product' d.id %}"><h5 class="card-title">{{d.Product_name}} ({{d.brand}})</h5></a>
             <p class="card-text">{{d.Description|safe|truncatewords:3 }}<a href="{{ url_for_full_content }}">......</a></p>
