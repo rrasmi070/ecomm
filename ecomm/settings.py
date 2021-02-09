@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'social_django',
+    
 ]
 
 # AUTH_USER_MODEL = 'seller.Register' 
@@ -91,7 +92,11 @@ WSGI_APPLICATION = 'ecomm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'E-comm',
+        'USER': 'postgres',
+        'PASSWORD': '8200',
+        'HOST': 'localhost',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

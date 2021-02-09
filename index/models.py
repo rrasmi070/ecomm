@@ -8,7 +8,10 @@ from django.contrib.auth.models import User, auth
 #     img = models.ImageField(upload_to="carousel")
 
 
-# API model fields.........................................................................................
+# Admin model fields.........................................................................................
+class Admin(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    model = models.CharField(max_length=40)
 
 # Create your models here.
 class Category(models.Model):
@@ -33,8 +36,16 @@ class Product(models.Model):
     image = models.FileField(upload_to="product/", max_length=None)
 
     def __str__(self):
-        return self.Product_name 
+        return self.Product_name
 
+class Moreimage(models.Model):
+    products = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image = models.FileField(upload_to="product/images/",max_length=None)
+
+    def __str__(self):
+        return self.products.Product_name
+
+    
 
 class Cart(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
@@ -87,3 +98,15 @@ class Order(models.Model):
 
     def __str__(self):
         return "Order:" +str(self.id)
+
+
+
+# SEllER MODEL======================================================
+# class Sell_reg(models.Model):
+#     f_name =models.CharField(max_length=20)
+#     l_name =models.CharField(max_length=20)
+#     email =models.EmailField()
+#     Phone =models.IntegerField()
+#     dob =models.DateField()
+#     IDproff =models.FileField(upload_to="id/")
+#     IDproff =models.FileField(upload_to="id/")

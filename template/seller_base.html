@@ -23,22 +23,28 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            {% if user.is_authenticated %}
               <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
               <div class="dropdown-menu dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-555">
-                <a class="dropdown-item" href="{% url 'add' %}">Add your product</a>
-                <a class="dropdown-item" href="{% url 'show' %}">Show</a>
-                <a class="dropdown-item" href="#">Dashbord</a>
+                <a class="dropdown-item" href="">Add your product</a>
+                <a class="dropdown-item" href="">Show</a>
+                <a class="dropdown-item" href="{% url 'dashbord' %}">Dashbord</a>
               </div>
-            {% else %}
-                </li>
-            {% endif %}
-              
+              </li>              
+              <li class="nav-item active">
+                <a class="nav-link" href="#">REGISTRATION
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="#">LOGIN
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
           </ul>
           </div>
           <div class="ml-auto mr-0">
-          <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="POST">{% csrf_token %}
+          <form class="form-inline my-2 my-lg-0" action="" method="POST">{% csrf_token %}
             <span><input class="form-control " type="search" placeholder="Item, Name, Brand....." aria-label="Search">
             <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button></span>
           </form>
@@ -72,7 +78,7 @@
                 
                 <a class="dropdown-item" ><strong><i>Welcome :</i></strong></a>
                 <a class="dropdown-item" ><strong>{{request.user}}</strong></a>
-                <a class="dropdown-item" href="{% url 'logout' %}"><strong>Logout!!</strong></a>
+                <a class="dropdown-item" href=""><strong>Logout!!</strong></a>
                 
                 <!--<a class="dropdown-item" href="#">Something else here</a>-->
               </div>
@@ -117,78 +123,12 @@
 
 
       <!--Registration Modal -->
-      <div class="modal fade" id="SignupexampleModal" tabindex="-1" role="dialog" aria-labelledby="SignupexampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="SignupexampleModalLabel"><u><b><i>Seller Registration</i></b></u></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              
-                <form method="POST" action="{% url 'send' %}">
-                {% csrf_token %}
-                <div class="form">
-                <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="exampleInputEmail1">First Name<i>(As per Document)</i>:</label>
-                  <input type="text" placeholder="First name" name="f_name" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                  </div>
-                  <div class="form-group col-md-6">
-                  <label for="exampleInputEmail1">Last Name<i>(As per Document)</i>:</label>
-                  <input type="text" placeholder="Last name" name="l_name" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                </div>
-                </div>
-
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" placeholder="Enter Email" name="email" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-
-                  <!-- <label for="exampleInputEmail1">Phone :</label>
-                  <input type="tel" placeholder="Phone number" name="Phone" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"> -->
-
-                  <!-- <label for="exampleInputEmail1">Date of Birth :</label>
-                  <input type="date" placeholder="Date of birth" name="dob" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"> -->
-                  
-                  <!-- <label for="exampleInputEmail1">Document no.</label>
-                  <input type="text" placeholder="Document no." name="Doc_no" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"> -->
-
-                  <!-- <label for="exampleInputEmail1">Upload your Document</label>
-                  <input type="file" placeholder="Document no." name="IDproff" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"> -->
-
-                  <!-- <label for="exampleInputEmail1">Shop Lisence/Registration no.</label>
-                  <input type="text" placeholder="Shop Lisence/Registration no." name="shop_reg" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"> -->
-
-                  <!-- <label for="exampleInputEmail1">Shop Lisence</label>
-                  <input type="file" placeholder="Document no." name="shop_proff" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"> -->
-
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password"  placeholder="password" name="psw" required class="form-control" id="exampleInputPassword1">
-                  <label for="exampleInputPassword1">Repeat Password</label>
-                  <input type="password"  placeholder="Repeat password" name="psw_repeat" required class="form-control" id="exampleInputPassword1">
-                </div>
-                <div class="form-group form-check">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                  <label class="form-check-label" for="exampleCheck1">I agree with your T&C</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Register</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+      
 </head>
 
   <body>
     {% block body %}
     {% endblock body %}
-
-
-    {% block content %}
-    {% endblock content %}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

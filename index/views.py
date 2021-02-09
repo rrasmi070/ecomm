@@ -1,21 +1,21 @@
-from django.views.generic import View, TemplateView, CreateView
+from django.views.generic import View, TemplateView, CreateView,DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 # from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User, auth
+from django.http import HttpResponse,JsonResponse
+from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.contrib.auth import logout
-from django.http import HttpResponse,JsonResponse
-from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.db.models import Q
-from .forms import OrderForm
 from index.models import *
+from time import time
 from math import ceil
+from .forms import *
 import requests
 import razorpay
-from time import time
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Social AUthentication...........................
@@ -42,7 +42,7 @@ class EcomRequir(object):
 # ==================================================================
 
 def home(request):
-    response = requests.get('http://rrasmi070.pythonanywhere.com/product/web_api/').json()
+    # response = requests.get('http://rrasmi070.pythonanywhere.com/product/web_api/').json()
     # print(response)
     prdt = Product.objects.all()
     # page = Paginator(prdt,4) # Show 4 contacts per page.
@@ -50,36 +50,36 @@ def home(request):
     # page_obj = paginator.get_page(page_number)
     cate=Category.objects.all()
     
-    count=0
-    f=0
-    catego_id=request.GET.get("category")
-    print(catego_id)
-    if catego_id:
-        prdt=Product.objects.filter(category_id=catego_id)
-        # print(a)
+    # count=0
+    # f=0
+    # catego_id=request.GET.get("category")
+    # print(catego_id)
+    # if catego_id:
+    #     prdt=Product.objects.filter(category_id=catego_id)
+    #     # print(a)
     
-    # print(v)
-    for d in response:
-        id=response[f]['id']
-        # print(id)
-        Product_name=response[f]['Product_name']
-        category=response[f]['category']
-        # .replace(" ", "_")
-        # print(category)
-        Price=response[f]['Price']
-        brand=response[f]['brand']
-        Description=response[f]['Description']
-        image=response[f]['image']
+    # # print(v)
+    # for d in response:
+    #     id=response[f]['id']
+    #     # print(id)
+    #     Product_name=response[f]['Product_name']
+    #     category=response[f]['category']
+    #     # .replace(" ", "_")
+    #     # print(category)
+    #     Price=response[f]['Price']
+    #     brand=response[f]['brand']
+    #     Description=response[f]['Description']
+    #     image=response[f]['image']
         
-        pro = Product.objects.filter(id=id)
-        # print(pro)
-        if id != pro:
-            w=Category.objects.get(category_name=category)
-            Product(id=id,Product_name=Product_name,Price=Price,category=w,brand=brand,Description=Description,image=image).save()
-            # print("saved")
-        # if f==1:
-        #     break
-        f+=1
+    #     pro = Product.objects.filter(id=id)
+    #     # print(pro)
+    #     if id != pro:
+    #         w=Category.objects.get(category_name=category)
+    #         Product(id=id,Product_name=Product_name,Price=Price,category=w,brand=brand,Description=Description,image=image).save()
+    #         # print("saved")
+    #     # if f==1:
+    #     #     break
+    #     f+=1
 
     
     # for i in response:
@@ -302,7 +302,7 @@ class OrderNow(CreateView):
             form.instance.subtotal = cart_obj.total
             form.instance.discount = 0
             form.instance.total = cart_obj.total
-            form.instance.order_status = "Order Placed"
+            form.instance.order_status = "Order received"
             del self.request.session['cart_id']
             pm = form.cleaned_data.get("payment_method")
             order = form.save()
@@ -412,3 +412,65 @@ class SearchView(TemplateView):
         return context
 
 
+# Seller models-----------------------------------------
+class SellerView(CreateView):
+    template_name = "seller.html"
+    form_class = SellerForm
+    success_url = reverse_lazy("seller")
+    def form_valid(self, form):
+        p=form.save()
+        images = self.request.FILES.getlist("more_images")
+        for i in images:
+            Moreimage.objects.create(products=p , image=i)
+        return super().form_valid(form)
+
+class Dashboaer(TemplateView):
+    template_name = "seller_order.html"
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pendingOrders'] = Order.objects.filter(order_status="Order Placed")
+        return context
+
+class OreddetailView(DetailView):
+    template_name = "seller_orderdetails.html"
+    model = Order
+    context_object_name = "ord_obj"
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context["allstatus"] = ORDER_STATUS
+        return context
+
+class OrderStausView(View):
+    def post(self,request,*args,**kwargs):
+        ord_id = self.kwargs['pk']
+        order_obj = Order.objects.get(id=ord_id)
+        new_status = request.POST.get("status")
+        order_obj.order_status = new_status
+        order_obj.save()
+        return redirect(reverse_lazy("admin_oder",kwargs={"pk":ord_id}))
+
+# Seller urls, etc.....==============================================
+def Seller_reg(request):
+    return render(request, "sell_registration.html")
+
+def Seller_Login(request):
+    return HttpResponse("seller Login......")
+
+def sell_signup(request):
+    # if request.POST and request.FILES:
+    #     f_name = request.POST['f_name']
+    #     l_name = request.POST['l_name']
+    #     email = request.POST['email']
+    #     Phone = request.POST['Phone']
+    #     dob = request.POST['dob']
+    #     Doc_no = request.POST['Doc_no']
+    #     IDproff = request.POST['IDproff']
+    #     shop_reg = request.POST['shop_reg']
+    #     shop_proff = request.POST['shop_proff']
+    #     psw = request.POST['psw']
+    #     psw_repeat = request.POST['psw_repeat']
+
+    #     # if psw == psw_repeat:
+
+    return redirect("seller_reg")
